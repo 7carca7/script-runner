@@ -1,4 +1,4 @@
-//This script runs all the .go scripts found in the /scripts folder.
+// This script runs all the .go scripts found in the /scripts folder concurrently.
 
 package main
 
@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -26,11 +27,26 @@ func main() {
 	// Start timer
 	start := time.Now()
 
-	// Execute each script
+	// Create a wait group to wait for all goroutines to finish
+	var wg sync.WaitGroup
+
+	// Execute each script in a separate goroutine
 	for i, script := range scriptsToRun {
-		fmt.Printf("Executing %d/%d %s\n", i+1, numScripts, strings.ToUpper(script))
-		executeScript(script)
+		// Increment the wait group counter
+		wg.Add(1)
+
+		// Launch a goroutine to execute the script
+		go func(i int, script string) {
+			// Decrement the wait group counter when the goroutine finishes
+			defer wg.Done()
+
+			fmt.Printf("RUNNING %s\n", strings.ToUpper(script))
+			executeScript(script)
+		}(i, script)
 	}
+
+	// Wait for all goroutines to finish
+	wg.Wait()
 
 	// Print completion message
 	fmt.Printf("Completed %d/%d\n", numScripts, numScripts)
