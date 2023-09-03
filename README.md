@@ -1,2 +1,2 @@
 # script-runner
- A simple script launcher
+Just a scripts launcher
