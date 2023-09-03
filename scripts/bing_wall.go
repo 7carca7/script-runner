@@ -11,6 +11,14 @@ import (
 	"strings"
 )
 
+// apiURL is the URL of the TimothyYe/bing-wallpaper API that provides the Bing image of the day.
+// The image resolution is set to 3840 and the format to JSON.
+// The index is set to 0 to get the most recent image and the market to "en-US" for images from the United States.
+var apiURL string = "https://bing.biturl.top/?resolution=3840&format=json&index=0&mkt=en-US"
+
+// Define download folder at the top for easy modification
+var downloadFolder string = ""
+
 // Response struct to map the JSON response from the API
 type Response struct {
 	Url       string `json:"url"`
@@ -19,7 +27,7 @@ type Response struct {
 
 func main() {
 	// Send a GET request to the API
-	resp, err := http.Get("https://bing.biturl.top/?resolution=3840&format=json&index=0&mkt=en-US")
+	resp, err := http.Get(apiURL)
 	if err != nil {
 		panic(err)
 	}
@@ -42,7 +50,7 @@ func main() {
 	// Split the copyright string into parts
 	parts := strings.Split(r.Copyright, ",")
 	// Construct the filename using the first part of the copyright string
-	filename := "/Users/ernesto/Pictures/bing wallpaper/" + parts[0] + ".jpg"
+	filename := downloadFolder + parts[0] + ".jpg"
 
 	// Check if the image already exists in the directory
 	if _, err := os.Stat(filename); err == nil {

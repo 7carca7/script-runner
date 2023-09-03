@@ -13,7 +13,7 @@ import (
 )
 
 // Define scriptsFolder at the top for easy modification
-const scriptsFolder = "scripts/"
+var scriptsFolder string = "scripts/"
 
 func main() {
 	// Setup logging
