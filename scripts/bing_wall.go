@@ -1,4 +1,4 @@
-// This script downloads the image of the day from Bing
+// This script downloads the image of the day from Bing.
 
 package main
 
@@ -47,7 +47,7 @@ func main() {
 	// Check if the image already exists in the directory
 	if _, err := os.Stat(filename); err == nil {
 		// If the image exists, print a message and end execution
-		fmt.Printf("The image already exists: %s\n", parts[0])
+		fmt.Printf("The image already exists: \"%s\"\n", parts[0])
 		return
 	}
 

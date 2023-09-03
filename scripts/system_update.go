@@ -1,4 +1,4 @@
-// This script will run all commands in the commands list
+// This script will run all commands in the commands list.
 
 package main
 
