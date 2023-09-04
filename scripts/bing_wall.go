@@ -47,15 +47,23 @@ func main() {
 	}
 	defer resp.Body.Close()
 
-	// Split the copyright string into parts
-	parts := strings.Split(r.Copyright, ",")
+	// Check if the copyright string contains a comma. If it does, split the string at the comma.
+	// If it doesn't, check if the string contains a parenthesis and split the string at the parenthesis.
+	// This is used to construct the filename for the downloaded image.
+	var parts []string
+	if strings.Contains(r.Copyright, ",") {
+		parts = strings.Split(r.Copyright, ",")
+	} else if strings.Contains(r.Copyright, "(") {
+		parts = strings.Split(r.Copyright, "(")
+	}
+
 	// Construct the filename using the first part of the copyright string
 	filename := downloadFolder + parts[0] + ".jpg"
 
 	// Check if the image already exists in the directory
 	if _, err := os.Stat(filename); err == nil {
 		// If the image exists, print a message and end execution
-		fmt.Printf("The image already exists: \"%s\"\n", parts[0])
+		fmt.Printf("The image already exists: \"%s\"\n", strings.TrimSpace(parts[0]))
 		return
 	}
 
@@ -73,5 +81,5 @@ func main() {
 	}
 
 	// Print a message indicating that the image was downloaded successfully
-	fmt.Printf("Image downloaded successfully: %s\n", parts[0])
+	fmt.Printf("Image downloaded successfully: \"%s\"\n", strings.TrimSpace(parts[0]))
 }
