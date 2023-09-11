@@ -21,3 +21,4 @@
 go.work
 reg.log
 script-runner
+.DS_Store
