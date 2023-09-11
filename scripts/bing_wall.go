@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -23,6 +24,16 @@ var downloadFolder string = ""
 type Response struct {
 	Url       string `json:"url"`
 	Copyright string `json:"copyright"`
+}
+
+// This function removes characters that are not allowed in filenames
+func sanitizeFilename(input string) string {
+	reg, err := regexp.Compile("[^a-zA-Z0-9 _-]+")
+	if err != nil {
+		panic(err)
+	}
+	output := reg.ReplaceAllString(input, "")
+	return output
 }
 
 func main() {
@@ -57,13 +68,15 @@ func main() {
 		parts = strings.Split(r.Copyright, "(")
 	}
 
+	// Sanitize the filename before using it.
+	safeFilename := sanitizeFilename(parts[0])
 	// Construct the filename using the first part of the copyright string
-	filename := downloadFolder + parts[0] + ".jpg"
+	filename := downloadFolder + safeFilename + ".jpg"
 
 	// Check if the image already exists in the directory
 	if _, err := os.Stat(filename); err == nil {
 		// If the image exists, print a message and end execution
-		fmt.Printf("The image already exists: \"%s\"\n", strings.TrimSpace(parts[0]))
+		fmt.Printf("The image already exists: \"%s\"\n", strings.TrimSpace(filename))
 		return
 	}
 
@@ -81,5 +94,5 @@ func main() {
 	}
 
 	// Print a message indicating that the image was downloaded successfully
-	fmt.Printf("Image downloaded successfully: \"%s\"\n", strings.TrimSpace(parts[0]))
+	fmt.Printf("Image downloaded successfully: \"%s\"\n", strings.TrimSpace(filename))
 }
