@@ -13,7 +13,8 @@ import (
 )
 
 // apiURL is the URL of the TimothyYe/bing-wallpaper API that provides the Bing image of the day.
-// The image resolution is set to 3840 and the format to JSON.
+// Available regions = ["en-US", "en-CA", "en-GB", "en-AU", "en-NZ", "de-DE", "zh-CN", "ja-JP", "random"]
+// Available resolutions = ["1920", "1366", "3840"]
 // The index is set to 0 to get the most recent image and the market to "en-US" for images from the United States.
 var apiURL string = "https://bing.biturl.top/?resolution=3840&format=json&index=0&mkt=en-US"
 
