@@ -1,4 +1,4 @@
-// This script runs all the .go scripts found in the /scripts folder concurrently.
+// This script runs all the .go scripts found in the /scripts folder.
 
 package main
 
