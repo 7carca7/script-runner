@@ -14,7 +14,7 @@ import (
 )
 
 // Define scriptsFolder at the top for easy modification
-var scriptsFolder string = "scripts/"
+var scriptsFolder = "scripts/"
 
 func main() {
 	// Setup logging
